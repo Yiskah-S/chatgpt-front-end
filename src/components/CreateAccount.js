@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const CreateAccount = () => {
+const CreateAccount = ({ onSignInClick }) => {
 	const [newUsername, setNewUsername] = useState('');
 	const [newEmail, setNewEmail] = useState('');
 	const [newPassword, setNewPassword] = useState('');
@@ -79,7 +79,7 @@ const CreateAccount = () => {
 
 					<button type="submit">Create Account</button>
 				</form>
-				<p>Already have an account? <a href="#" id="sign-in-link">Sign In</a></p>
+				<p>Already have an account? <a href="#" onClick={onSignInClick}>Sign In</a></p>
 			</div>
 		</div>
 	);
