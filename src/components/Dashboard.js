@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import LogInPage from './LogInPage';
 
 const Dashboard = ({ onLogOut }) => {
@@ -25,18 +26,18 @@ const Dashboard = ({ onLogOut }) => {
 		onLogOut();
 	};
 
+
 	return (
 		<div className="container">
 			<header>
 				<h1>Dashboard</h1>
 				<nav>
-					<a href="#">Home</a>
-					<a href="#">Prompt Library</a>
+					<Link to="/">Home</Link>
+					<Link to="/prompt-library">Prompt Library</Link>
 					<a href="#">API Keys Page</a>
-                    <button onClick={onLogOut}>Log Out</button>
+					<button onClick={onLogOut}>Log Out</button>
 				</nav>
 			</header>
-
 			<main>
 				<section id="crawl-section">
 					<h2>Crawl Website</h2>
@@ -49,7 +50,6 @@ const Dashboard = ({ onLogOut }) => {
 						onChange={(e) => setTargetWebsite(e.target.value)}
 						required
 					/>
-
 					<label htmlFor="prompt-selection">Select Prompts:</label>
 					<select
 						id="prompt-selection"
@@ -64,7 +64,6 @@ const Dashboard = ({ onLogOut }) => {
 							<option key={prompt.value} value={prompt.value}>{prompt.text}</option>
 						))}
 					</select>
-
 					<label htmlFor="output-format">Output Format:</label>
 					<select
 						id="output-format"
@@ -78,10 +77,8 @@ const Dashboard = ({ onLogOut }) => {
 						<option value="md">.md</option>
 						<option value="google-docs">Google Docs</option>
 					</select>
-
 					<button type="button" id="run-button" onClick={handleRunCrawler}>Run Crawler</button>
 				</section>
-
 				{outputVisible && (
 					<section id="output-section">
 						<h2>Output Results</h2>
