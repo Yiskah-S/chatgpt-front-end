@@ -1,6 +1,9 @@
+// Dashboard.js
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import LogInPage from './LogInPage';
+import LogInPage from './LogInPage.js';
+import './Dashboard.css';
 
 const Dashboard = ({ onLogOut }) => {
 	const [targetWebsite, setTargetWebsite] = useState('');
@@ -20,12 +23,9 @@ const Dashboard = ({ onLogOut }) => {
 		setOutputVisible(true);
 	};
 
-    const handleLogOut = () => {
-		// Perform any logout actions or state updates as needed
-		// For this example, we'll simply call the onLogOut function passed as a prop
+	const handleLogOut = () => {
 		onLogOut();
 	};
-
 
 	return (
 		<div className="container">
@@ -35,7 +35,7 @@ const Dashboard = ({ onLogOut }) => {
 					<Link to="/">Home</Link>
 					<Link to="/prompt-library">Prompt Library</Link>
 					<a href="#">API Keys Page</a>
-					<button onClick={onLogOut}>Log Out</button>
+					<button onClick={handleLogOut}>Log Out</button>
 				</nav>
 			</header>
 			<main>

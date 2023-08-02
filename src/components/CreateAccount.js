@@ -1,11 +1,17 @@
+// CreateAccount.js
+
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import './CreateAccount.css';
 
-const CreateAccount = ({ onSignInClick }) => {
+const CreateAccount = ({ onCreateAccountClick }) => {
 	const [newUsername, setNewUsername] = useState('');
 	const [newEmail, setNewEmail] = useState('');
 	const [newPassword, setNewPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
+
+	const navigate = useNavigate(); // Initialize the navigate function
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
@@ -30,6 +36,12 @@ const CreateAccount = ({ onSignInClick }) => {
 				console.error('Error creating user:', error);
 			});
 	};
+
+	const handleSignInClick = () => {
+		navigate('/signin');
+		onCreateAccountClick();  // Call the onCreateAccountClick function
+	};
+
 
 	return (
 		<div className="container">
@@ -79,7 +91,12 @@ const CreateAccount = ({ onSignInClick }) => {
 
 					<button type="submit">Create Account</button>
 				</form>
-				<p>Already have an account? <a href="#" onClick={onSignInClick}>Sign In</a></p>
+				<p>
+					Already have an account?{' '}
+					<a href="#" onClick={handleSignInClick}>
+						Sign In
+					</a>
+				</p>
 			</div>
 		</div>
 	);
