@@ -28,7 +28,7 @@ const App = () => {
 
 	const handleSignInClick = async (email, password) => {
 		try {
-			const response = await fetch('/users/login', {
+			const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/login`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -38,6 +38,7 @@ const App = () => {
 
 			if (response.ok) {
 				const userData = await response.json();
+				setUser(userData); // Store user data on successful login
 				setLoggedIn(true);
 				setLoginError(''); // Clear any previous login error
 			} else {
@@ -56,6 +57,7 @@ const App = () => {
 	};
 
 	const handleLogOut = () => {
+		setUser(null); // Clear user data on logout
 		setLoggedIn(false);
 		setIsCreateAccountVisible(false);
 	};
@@ -66,29 +68,32 @@ const App = () => {
 				<h1>ChatGPT Crawler Site</h1>
 				<Routes>
 					<Route path="/" element={<LandingPage />} />
-					<Route
-						path="/signin"
-						element={
-							<LogInPage
-								onSignInClick={handleSignInClick}
-								onLogOut={handleLogOut}
-								onCreateAccountClick={handleCreateAccountClick}
+					{loggedIn ? (
+						<Route
+							path="/dashboard"
+							element={<Dashboard user={user} onLogOut={handleLogOut} />}
+						/>
+					) : (
+						<>
+							<Route
+								path="/signin"
+								element={
+									<LogInPage
+										onSignInClick={handleSignInClick}
+										onLogOut={handleLogOut}
+										onCreateAccountClick={handleCreateAccountClick}
+										setUser={setUser}
+									/>
+								}
 							/>
-						}
-					/>
-					<Route
-						path="/create-account"
-						element={<CreateAccount onCreateAccountClick={handleCreateAccountClick} />}
-					/>
-					<Route
-						path="/dashboard"
-						element={<Dashboard user={user} onLogOut={handleLogOut} />}
-					/>
+							<Route
+								path="/create-account"
+								element={<CreateAccount onCreateAccountClick={handleCreateAccountClick} />}
+							/>
+						</>
+					)}
 					<Route path="/prompt-library" element={<PromptLibrary />} />
-					<Route
-						path="/account-details"
-						element={<AccountDetails user={user} />}
-					/>
+					<Route path="/account-details" element={<AccountDetails user={user} />} />
 				</Routes>
 			</div>
 		</Router>

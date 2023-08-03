@@ -42,7 +42,7 @@ const CreateAccount = ({ onCreateAccountClick }) => {
 		onCreateAccountClick();  // Call the onCreateAccountClick function
 	};
 
-
+	
 	return (
 		<div className="container">
 			<h1>ChatGPT Crawler Site</h1>

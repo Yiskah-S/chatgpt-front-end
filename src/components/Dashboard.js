@@ -2,10 +2,9 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import LogInPage from './LogInPage.js';
 import './Dashboard.css';
 
-const Dashboard = ({ onLogOut }) => {
+const Dashboard = ({ onLogOut, user }) => { // Include user in props
 	const [targetWebsite, setTargetWebsite] = useState('');
 	const [selectedPrompts, setSelectedPrompts] = useState([]);
 	const [outputFormat, setOutputFormat] = useState('');

@@ -11,7 +11,7 @@ const AccountDetails = ({ user }) => {
 				<nav>
 					<a href="/">Home</a>
 					<a href="/prompt-library">Prompt Library</a>
-					<a href="#">API Keys Page</a>
+					<button>API Keys Page</button>
 					<a href="/logout">Log Out</a>
 				</nav>
 			</header>
