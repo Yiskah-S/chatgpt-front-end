@@ -1,7 +1,7 @@
 // Dashboard.js
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 
 const Dashboard = ({ onLogOut, user }) => { // Include user in props
@@ -22,18 +22,23 @@ const Dashboard = ({ onLogOut, user }) => { // Include user in props
 		setOutputVisible(true);
 	};
 
+	const navigate = useNavigate();
+
 	const handleLogOut = () => {
 		onLogOut();
+		navigate('/'); 
 	};
 
 	return (
 		<div className="container">
 			<header>
 				<h1>Dashboard</h1>
+				<h2>Hi, {user.username}!</h2>
 				<nav>
 					<Link to="/">Home</Link>
 					<Link to="/prompt-library">Prompt Library</Link>
-					<a href="#">API Keys Page</a>
+					<Link to="/apikeyspage">API Keys Page</Link>
+					<Link to="/account-details">Account Details</Link>
 					<button onClick={handleLogOut}>Log Out</button>
 				</nav>
 			</header>

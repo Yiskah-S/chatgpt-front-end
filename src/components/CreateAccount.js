@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './CreateAccount.css';
 
 const CreateAccount = ({ onCreateAccountClick }) => {
@@ -46,6 +46,7 @@ const CreateAccount = ({ onCreateAccountClick }) => {
 	return (
 		<div className="container">
 			<h1>ChatGPT Crawler Site</h1>
+			<Link to="/">Home</Link>
 			<div id="create-account" className="visible">
 				<h2>Create Account</h2>
 				<form id="create-account-form" onSubmit={handleSubmit}>
@@ -92,10 +93,8 @@ const CreateAccount = ({ onCreateAccountClick }) => {
 					<button type="submit">Create Account</button>
 				</form>
 				<p>
-					Already have an account?{' '}
-					<a href="#" onClick={handleSignInClick}>
-						Sign In
-					</a>
+					Already have an account?
+					<Link to="/signin">Sign In</Link>
 				</p>
 			</div>
 		</div>

@@ -7,6 +7,7 @@ import LogInPage from './components/LogInPage.js';
 import Dashboard from './components/Dashboard.js';
 import PromptLibrary from './components/PromptLibrary.js';
 import AccountDetails from './components/AccountDetails.js';
+import APIKeysPage from './components/APIKeysPage.js';
 import './App.css';
 
 const LandingPage = () => {
@@ -69,10 +70,12 @@ const App = () => {
 				<Routes>
 					<Route path="/" element={<LandingPage />} />
 					{loggedIn ? (
-						<Route
-							path="/dashboard"
-							element={<Dashboard user={user} onLogOut={handleLogOut} />}
-						/>
+						<>
+							<Route path="/dashboard" element={<Dashboard user={user} onLogOut={handleLogOut} />} />
+							<Route path="/apikeyspage" element={<APIKeysPage user={user} onLogOut={handleLogOut} />} />
+							<Route path="/prompt-library" element={<PromptLibrary user={user} onLogOut={handleLogOut} />} />
+							<Route path="/account-details" element={<AccountDetails user={user} onLogOut={handleLogOut} />} />
+						</>
 					) : (
 						<>
 							<Route
@@ -92,12 +95,12 @@ const App = () => {
 							/>
 						</>
 					)}
-					<Route path="/prompt-library" element={<PromptLibrary />} />
-					<Route path="/account-details" element={<AccountDetails user={user} />} />
 				</Routes>
 			</div>
 		</Router>
 	);
 };
+
+
 
 export default App;

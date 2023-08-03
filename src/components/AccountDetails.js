@@ -1,18 +1,29 @@
 // AccountDetails.js
 
-import React from 'react';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './AccountDetails.css';
 
-const AccountDetails = ({ user }) => {
+const AccountDetails = ({ onLogOut, user }) => {
+
+    const navigate = useNavigate();
+
+	const handleLogOut = () => {
+		onLogOut();
+		navigate('/'); 
+	};
+
+
 	return (
 		<div className="container">
 			<header>
 				<h1>ChatGPT Crawler Site</h1>
 				<nav>
-					<a href="/">Home</a>
-					<a href="/prompt-library">Prompt Library</a>
-					<button>API Keys Page</button>
-					<a href="/logout">Log Out</a>
+                    <Link to="/dashboard">Dashboard</Link>
+					<Link to="/prompt-library">Prompt Library</Link>
+					<Link to="/apikeyspage">API Keys Page</Link>
+					<Link to="/account-details">Account Details</Link>
+					<button onClick={handleLogOut}>Log Out</button>
 				</nav>
 			</header>
 			<main>

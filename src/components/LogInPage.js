@@ -2,38 +2,41 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const LogInPage = ({ onCreateAccountClick, onSignInClick, setUser }) => {  
+const LogInPage = ({ onSignInClick, onCreateAccountClick, setUser }) => {  
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
 	const navigate = useNavigate();
 
-
-	const handleSubmit = async (event) => { 
+	const handleSubmit = async (event) => {
 		event.preventDefault();
 	
 		try {
-			// Adds debug statement to check the endpoint being called
-			console.log("Sending login request...");
-	
+		  // Adds debug statement to check the endpoint being called
+			console.log('Sending login request...');
+		
 			const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/login`, {
 				email: email,
 				password: password,
 			});
-	
-			console.log("Login response:", response.data);
-
-			if (response.ok) {
-				// Redirect to Dashboard after successful login
-				navigate('/dashboard');
+		
+			console.log('Login response:', response.data);
+		
+			if (response.status === 200) {
+				setUser(response.data); // Store user data on successful login
+				onSignInClick(email, password);
+				navigate('/dashboard'); // Redirect to Dashboard after successful login
+			} else {
+				console.log('Login failed');
+				// Handle login failure here if necessary
 			}
-		} catch (error) {
-			console.error("Error logging in user:", error);
-		}
-	};
-	
+			} catch (error) {
+			console.error('Error logging in user:', error);
+			}
+		};
+
 	const handleCreateAccountClick = () => {
 		navigate('/create-account');  
 		onCreateAccountClick();  
@@ -42,6 +45,7 @@ const LogInPage = ({ onCreateAccountClick, onSignInClick, setUser }) => {
 	return (
 		<div className="container">
 			<h1>ChatGPT Crawler Site</h1>
+			<Link to="/">Home</Link>
 			<div id="log-in" className="visible">
 				<h2>Log In</h2>
 				<form id="log-in-form" onSubmit={handleSubmit}>
@@ -68,10 +72,8 @@ const LogInPage = ({ onCreateAccountClick, onSignInClick, setUser }) => {
 					<button type="submit">Log In</button>
 				</form>
 				<p>
-					Don't have an account?{' '}
-					<a href="#" onClick={handleCreateAccountClick}>
-						Create Account
-					</a>
+				Don't have an account? 
+					<Link to="/create-account">Create Account</Link>
 				</p>
 			</div>
 		</div>

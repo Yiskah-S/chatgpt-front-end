@@ -1,12 +1,14 @@
+// PromptLibrart.js
+
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './PromptLibrary.css';
 
-const PromptLibraryPage = () => {
-	const navigate = useNavigate();
+const PromptLibraryPage = ({ onLogOut, user }) => {
 	const [title, setTitle] = useState('');
 	const [category, setCategory] = useState('');
 	const [promptText, setPromptText] = useState('');
+	const navigate = useNavigate();
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
@@ -18,20 +20,33 @@ const PromptLibraryPage = () => {
 			},
 			body: JSON.stringify({ title, category, prompt: promptText }),
 		})
-		.then((response) => response.json())
-		.then((data) => {
-			console.log('Prompt saved successfully:', data);
-		})
-		.catch((error) => {
-			console.error('Error saving prompt:', error);
-			// Handle errors
-		});
+			.then((response) => response.json())
+			.then((data) => {
+				console.log('Prompt saved successfully:', data);
+			})
+			.catch((error) => {
+				console.error('Error saving prompt:', error);
+				// Handle errors
+			});
+	};
+
+	const handleLogOut = () => {
+		onLogOut();
+		navigate('/');
 	};
 
 	return (
 		<div className="container">
-			<h1>Prompt Input</h1>
-            <button onClick={() => navigate('/')}>Back to Dashboard</button>
+			<header>
+				<h1>Prompt Input</h1>
+				<nav>
+					<Link to="/dashboard">Dashboard</Link>
+					<Link to="/prompt-library">Prompt Library</Link>
+					<Link to="/apikeyspage">API Keys Page</Link>
+					<Link to="/account-details">Account Details</Link>
+					<button onClick={handleLogOut}>Log Out</button>
+				</nav>
+			</header>
 			<form id="prompt-form" onSubmit={handleSubmit}>
 				<label htmlFor="title">Title:</label>
 				<input
