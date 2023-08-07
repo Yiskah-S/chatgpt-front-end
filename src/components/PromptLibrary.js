@@ -1,34 +1,46 @@
 // PromptLibrart.js
 
-import React, { useState } from 'react';
+import React, { useState} from 'react';
+import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import './PromptLibrary.css';
 
 const PromptLibraryPage = ({ onLogOut, user }) => {
 	const [title, setTitle] = useState('');
 	const [category, setCategory] = useState('');
-	const [promptText, setPromptText] = useState('');
+	const [prompt, setPrompt] = useState('');
 	const navigate = useNavigate();
 
-	const handleSubmit = (event) => {
+	const handleSubmitPrompt = (event) => {
 		event.preventDefault();
-		// Send the prompt data to the backend server
-		fetch('/savePrompt', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ title, category, prompt: promptText }),
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				console.log('Prompt saved successfully:', data);
+
+		// Add a debug statement to print user and user.id
+		console.log('User:', user);
+		console.log('User ID:', user.id);
+
+		// Make a POST request to create a new user account
+		axios
+			.post(`${process.env.REACT_APP_BACKEND_URL}/prompt-library/prompts/`, {
+				title: title,
+				category: category,
+				prompt: prompt,
+				user_id: user.id,
+			})
+			.then((response) => {
+				console.log('Prompt created:', response.data);
 			})
 			.catch((error) => {
-				console.error('Error saving prompt:', error);
-				// Handle errors
+				console.error('Error creating prompt:', error);
+			});
+
+			console.log('Data being sent:', {
+				title: title,
+				category: category,
+				prompt: prompt,
+				user_id: user.id,
 			});
 	};
+
 
 	const handleLogOut = () => {
 		onLogOut();
@@ -42,12 +54,12 @@ const PromptLibraryPage = ({ onLogOut, user }) => {
 				<nav>
 					<Link to="/dashboard">Dashboard</Link>
 					<Link to="/prompt-library">Prompt Library</Link>
-					<Link to="/apikeyspage">API Keys Page</Link>
+					<Link to="/api-keys">API Keys Page</Link>
 					<Link to="/account-details">Account Details</Link>
 					<button onClick={handleLogOut}>Log Out</button>
 				</nav>
 			</header>
-			<form id="prompt-form" onSubmit={handleSubmit}>
+			<form id="prompt-form" onSubmit={handleSubmitPrompt}>
 				<label htmlFor="title">Title:</label>
 				<input
 					type="text"
@@ -71,8 +83,8 @@ const PromptLibraryPage = ({ onLogOut, user }) => {
 					id="prompt"
 					name="prompt"
 					rows="5"
-					value={promptText}
-					onChange={(e) => setPromptText(e.target.value)}
+					value={prompt}
+					onChange={(e) => setPrompt(e.target.value)}
 					required
 				></textarea>
 				<button type="submit">Save Prompt</button>

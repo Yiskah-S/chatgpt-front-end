@@ -21,7 +21,7 @@ const AccountDetails = ({ onLogOut, user }) => {
 				<nav>
                     <Link to="/dashboard">Dashboard</Link>
 					<Link to="/prompt-library">Prompt Library</Link>
-					<Link to="/apikeyspage">API Keys Page</Link>
+					<Link to="/api-keys">API Keys Page</Link>
 					<Link to="/account-details">Account Details</Link>
 					<button onClick={handleLogOut}>Log Out</button>
 				</nav>

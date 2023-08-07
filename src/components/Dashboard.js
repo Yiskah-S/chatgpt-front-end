@@ -37,7 +37,7 @@ const Dashboard = ({ onLogOut, user }) => { // Include user in props
 				<nav>
 					<Link to="/">Home</Link>
 					<Link to="/prompt-library">Prompt Library</Link>
-					<Link to="/apikeyspage">API Keys Page</Link>
+					<Link to="/api-keys">API Keys Page</Link>
 					<Link to="/account-details">Account Details</Link>
 					<button onClick={handleLogOut}>Log Out</button>
 				</nav>

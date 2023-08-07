@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
-const LogInPage = ({ onSignInClick, onCreateAccountClick, setUser }) => {  
+const LogInPage = ({ onSignInClick, onCreateAccountClick, setUser, user }) => {  
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
@@ -25,22 +25,16 @@ const LogInPage = ({ onSignInClick, onCreateAccountClick, setUser }) => {
 			console.log('Login response:', response.data);
 		
 			if (response.status === 200) {
-				setUser(response.data); // Store user data on successful login
+				setUser(response.data); 
 				onSignInClick(email, password);
-				navigate('/dashboard'); // Redirect to Dashboard after successful login
+				navigate('/dashboard'); 
 			} else {
 				console.log('Login failed');
-				// Handle login failure here if necessary
 			}
 			} catch (error) {
 			console.error('Error logging in user:', error);
 			}
 		};
-
-	const handleCreateAccountClick = () => {
-		navigate('/create-account');  
-		onCreateAccountClick();  
-	};
 
 	return (
 		<div className="container">

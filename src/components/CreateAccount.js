@@ -37,11 +37,6 @@ const CreateAccount = ({ onCreateAccountClick }) => {
 			});
 	};
 
-	const handleSignInClick = () => {
-		navigate('/signin');
-		onCreateAccountClick();  // Call the onCreateAccountClick function
-	};
-
 	
 	return (
 		<div className="container">

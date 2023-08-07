@@ -72,7 +72,7 @@ const App = () => {
 					{loggedIn ? (
 						<>
 							<Route path="/dashboard" element={<Dashboard user={user} onLogOut={handleLogOut} />} />
-							<Route path="/apikeyspage" element={<APIKeysPage user={user} onLogOut={handleLogOut} />} />
+							<Route path="/api-keys" element={<APIKeysPage user={user} onLogOut={handleLogOut} />} />
 							<Route path="/prompt-library" element={<PromptLibrary user={user} onLogOut={handleLogOut} />} />
 							<Route path="/account-details" element={<AccountDetails user={user} onLogOut={handleLogOut} />} />
 						</>
