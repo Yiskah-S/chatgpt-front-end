@@ -1,6 +1,6 @@
 // APIKeysPage.js
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import './APIKeysPage.css';
@@ -15,30 +15,62 @@ const APIKeysPage = ({ onLogOut, user }) => {
 
 	const navigate = useNavigate();
 
-	const handleSubmitAPIKeys = (event) => {
+	const fetchAPIKeys = async () => {
+		try {
+			console.log('Fetching API keys...');
+			const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api-keys/${user.id}/`);
+	
+			if (response.data && response.data.length > 0) {
+				const keys = {
+					chatgptKey: '',
+					notionKey: '',
+					googleDocsKey: '',
+					capacitiesKey: '',
+					...response.data.reduce((acc, item) => {
+						acc[item.api_type] = item.api_key;
+						return acc;
+					}, {})
+				};
+				setApiKeys(keys);
+				console.log('API Keys:', keys);
+			}
+		} catch (error) {
+			console.error('Error fetching API keys:', error);
+		}
+	};
+	
+	useEffect(() => {
+		fetchAPIKeys();
+	}, []);
+
+	const handleSubmitAPIKeys = async (event) => {
 		event.preventDefault();
+		const url = `${process.env.REACT_APP_BACKEND_URL}/api-keys/${user.id}/`;
 
-		// Add a debug statement to print user and user.id
-		console.log('User:', user);
-		console.log('User ID:', user.id);
-
-		const apiKeysArray = Object.entries(apiKeys).map(([api_type, api_key]) => ({
-			api_type,
-			api_key,
+		const keysArray = Object.keys(apiKeys).map((key) => ({
+			api_type: key,
+			api_key: apiKeys[key],
 		}));
 
-		axios
-			.post(`${process.env.REACT_APP_BACKEND_URL}/api-keys/api-keys/${user.id}`, {
-				apiKeys: apiKeysArray, 
-			})
-			.then((response) => {
-				console.log('API keys added successfully', response.data);
-			})
-			.catch((error) => {
-				console.error('Error adding API keys', error);
-			});
+		if (keysArray.some((key) => key.api_key !== '')) {
+			await axios.patch(url, { apiKeys: keysArray })
+				.then((response) => {
+					console.log('API keys updated successfully', response.data);
+				})
+				.catch((error) => {
+					console.error('Error updating API keys', error);
+				});
+		} else {
+			await axios.post(url, { apiKeys: keysArray })
+				.then((response) => {
+					console.log('API keys added successfully', response.data);
+				})
+				.catch((error) => {
+					console.error('Error adding API keys', error);
+				});
+		}
 
-		console.log('Data being sent:', { apiKeys: apiKeysArray, user_id: user.id });
+		console.log('Data being sent:', keysArray);
 	};
 
 	const handleLogOut = () => {
@@ -70,7 +102,6 @@ const APIKeysPage = ({ onLogOut, user }) => {
 							name="chatgptKey"
 							value={apiKeys.chatgptKey}
 							onChange={(e) => setApiKeys({ ...apiKeys, chatgptKey: e.target.value })}
-							required
 						/>
 						<label htmlFor="notion-key">Notion API Key:</label>
 						<input
@@ -78,7 +109,6 @@ const APIKeysPage = ({ onLogOut, user }) => {
 							name="notionKey"
 							value={apiKeys.notionKey}
 							onChange={(e) => setApiKeys({ ...apiKeys, notionKey: e.target.value })}
-							required
 						/>
 						<label htmlFor="google-docs-key">Google Docs API Key:</label>
 						<input
@@ -86,7 +116,6 @@ const APIKeysPage = ({ onLogOut, user }) => {
 							name="googleDocsKey"
 							value={apiKeys.googleDocsKey}
 							onChange={(e) => setApiKeys({ ...apiKeys, googleDocsKey: e.target.value })}
-							required
 						/>
 						<label htmlFor="capacities-key">Capacities API Key:</label>
 						<input
@@ -94,11 +123,9 @@ const APIKeysPage = ({ onLogOut, user }) => {
 							name="capacitiesKey"
 							value={apiKeys.capacitiesKey}
 							onChange={(e) => setApiKeys({ ...apiKeys, capacitiesKey: e.target.value })}
-							required
 						/>
 						<button type="submit">Save API Keys</button>
 					</form>
-
 				</div>
 			</main>
 		</div>

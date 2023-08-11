@@ -1,6 +1,6 @@
 // PromptLibrart.js
 
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import './PromptLibrary.css';
@@ -10,6 +10,30 @@ const PromptLibraryPage = ({ onLogOut, user }) => {
 	const [category, setCategory] = useState('');
 	const [prompt, setPrompt] = useState('');
 	const navigate = useNavigate();
+
+	// Function to fetch prompts
+	const fetchPrompts = async () => {
+		try {
+			const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/prompt-library/prompts/`, {
+				// Add user authentication if needed
+			});
+
+			if (response.data && response.data.length > 0) {
+				const promptData = response.data[0]; // Assuming you want to load the first prompt
+				setTitle(promptData.title);
+				setCategory(promptData.category);
+				setPrompt(promptData.prompt);
+			}
+		} catch (error) {
+			console.error('Error fetching prompts:', error);
+		}
+	};
+
+	// Use useEffect to call fetchPrompts when the component mounts
+	useEffect(() => {
+		fetchPrompts();
+	}, []); // Empty dependency array means this effect will run only once after the initial render
+
 
 	const handleSubmitPrompt = (event) => {
 		event.preventDefault();
