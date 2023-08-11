@@ -53,7 +53,7 @@ const APIKeysPage = ({ onLogOut, user }) => {
 		}));
 
 		if (keysArray.some((key) => key.api_key !== '')) {
-			await axios.patch(url, { apiKeys: keysArray })
+			await axios.put(url, { apiKeys: keysArray })
 				.then((response) => {
 					console.log('API keys updated successfully', response.data);
 				})

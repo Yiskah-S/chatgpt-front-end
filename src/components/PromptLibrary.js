@@ -9,31 +9,92 @@ const PromptLibraryPage = ({ onLogOut, user }) => {
 	const [title, setTitle] = useState('');
 	const [category, setCategory] = useState('');
 	const [prompt, setPrompt] = useState('');
+	const [categories, setCategories] = useState([]);
+	const [selectedCategory, setSelectedCategory] = useState('');
+	const [promptsInCategory, setPromptsInCategory] = useState([]);
+	const [selectedPrompt, setSelectedPrompt] = useState(null);
 	const navigate = useNavigate();
+
+	const fetchCategories = async () => {
+		try {
+			const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/prompts/${user.id}/categories`);
+			setCategories(response.data);
+		} catch (error) {
+			console.error('Error fetching categories:', error);
+		}
+	};
+
+	const fetchPromptsInCategory = async (selectedCat) => {
+		try {
+			const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/prompts/${user.id}/categories/${selectedCat}`);
+			setPromptsInCategory(response.data);
+		} catch (error) {
+			console.error('Error fetching prompts in category:', error);
+		}
+	};
+
+	const handleCategoryChange = (event) => {
+		const selectedCat = event.target.value;
+		setSelectedCategory(selectedCat);
+		fetchPromptsInCategory(selectedCat);
+	};
+
+	const handlePromptChange = (event) => {
+		const promptId = parseInt(event.target.value);
+		const selected = promptsInCategory.find((p) => p.id === promptId);
+		setTitle(selected.title);
+		setCategory(selected.category);
+		setPrompt(selected.prompt);
+		setSelectedPrompt(selected);
+	};
+
+	const deleteSelectedPrompt = () => {
+		if (selectedPrompt) {
+			axios
+				.delete(`${process.env.REACT_APP_BACKEND_URL}/prompts/${user.id}/${selectedPrompt.id}`)
+				.then(() => {
+					console.log('Prompt deleted');
+					fetchPromptsInCategory(selectedCategory);
+					setTitle('');
+					setCategory('');
+					setPrompt('');
+				})
+				.catch((error) => {
+					console.error('Error deleting prompt:', error);
+				});
+		}
+	};
 
 	// Function to fetch prompts
 	const fetchPrompts = async () => {
 		try {
-			const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/prompt-library/prompts/`, {
-				// Add user authentication if needed
-			});
+			const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/prompts/${user.id}/`);
 
-			if (response.data && response.data.length > 0) {
-				const promptData = response.data[0]; // Assuming you want to load the first prompt
-				setTitle(promptData.title);
-				setCategory(promptData.category);
-				setPrompt(promptData.prompt);
-			}
+			// if (response.data && response.data.length > 0) {
+			// 	const promptData = response.data[0]; // Assuming you want to load the first prompt
+			// 	setTitle(promptData.title);
+			// 	setCategory(promptData.category);
+			// 	setPrompt(promptData.prompt);
+			// }
 		} catch (error) {
 			console.error('Error fetching prompts:', error);
 		}
 	};
 
-	// Use useEffect to call fetchPrompts when the component mounts
 	useEffect(() => {
 		fetchPrompts();
-	}, []); // Empty dependency array means this effect will run only once after the initial render
+		fetchCategories();
+	}, []);
 
+	const fetchPromptsAndUpdateState = async () => {
+		// Fetch categories
+		await fetchCategories();
+
+		// If a category is selected, fetch the prompts for that category
+		if (selectedCategory) {
+			await fetchPromptsInCategory(selectedCategory);
+		}
+	};
 
 	const handleSubmitPrompt = (event) => {
 		event.preventDefault();
@@ -44,7 +105,7 @@ const PromptLibraryPage = ({ onLogOut, user }) => {
 
 		// Make a POST request to create a new user account
 		axios
-			.post(`${process.env.REACT_APP_BACKEND_URL}/prompt-library/prompts/`, {
+			.post(`${process.env.REACT_APP_BACKEND_URL}/prompts/${user.id}/`, {
 				title: title,
 				category: category,
 				prompt: prompt,
@@ -52,6 +113,8 @@ const PromptLibraryPage = ({ onLogOut, user }) => {
 			})
 			.then((response) => {
 				console.log('Prompt created:', response.data);
+				fetchPromptsAndUpdateState();
+				
 			})
 			.catch((error) => {
 				console.error('Error creating prompt:', error);
@@ -112,6 +175,25 @@ const PromptLibraryPage = ({ onLogOut, user }) => {
 					required
 				></textarea>
 				<button type="submit">Save Prompt</button>
+				<label htmlFor="category-select">Select Category:</label>
+				<select id="category-select" onChange={handleCategoryChange}>
+					<option value="">--Select Category--</option>
+					{categories.map((cat) => (
+						<option value={cat} key={cat}>
+							{cat}
+						</option>
+					))}
+				</select>
+				<label htmlFor="prompt-select">Select Prompt:</label>
+				<select id="prompt-select" onChange={handlePromptChange}>
+					<option value="">--Select Prompt--</option>
+					{promptsInCategory.map((p) => (
+						<option value={p.id} key={p.id}>
+							{p.title}
+						</option>
+					))}
+				</select>
+				<button type="button" onClick={deleteSelectedPrompt}>Delete Prompt</button>
 			</form>
 		</div>
 	);
