@@ -1,11 +1,13 @@
-// PromptLibrart.js
+// PromptLibrary.js
 
-import React, { useState, useEffect} from 'react';
+import React, { useCallback, useState, useEffect} from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './PromptLibrary.css';
+import Navigation from './Navigation';
 
 const PromptLibraryPage = ({ onLogOut, user }) => {
+	const { id } = user;
 	const [title, setTitle] = useState('');
 	const [category, setCategory] = useState('');
 	const [prompt, setPrompt] = useState('');
@@ -13,25 +15,31 @@ const PromptLibraryPage = ({ onLogOut, user }) => {
 	const [selectedCategory, setSelectedCategory] = useState('');
 	const [promptsInCategory, setPromptsInCategory] = useState([]);
 	const [selectedPrompt, setSelectedPrompt] = useState(null);
+	const [error, setError] = useState(null);
 	const navigate = useNavigate();
 
-	const fetchCategories = async () => {
-		try {
-			const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/prompts/${user.id}/categories`);
-			setCategories(response.data);
-		} catch (error) {
-			console.error('Error fetching categories:', error);
-		}
+	const handleError = (error, message) => {
+		console.error(message, error);
+		setError(message);
 	};
 
-	const fetchPromptsInCategory = async (selectedCat) => {
+	const fetchCategories = useCallback(async () => {
 		try {
-			const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/prompts/${user.id}/categories/${selectedCat}`);
+			const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/prompts/${id}/categories`);
+			setCategories(response.data);
+		} catch (error) {
+			handleError(error, 'Failed to fetch categories. Please try again later.');
+		}
+	}, [id]);
+
+	const fetchPromptsInCategory = useCallback(async (selectedCat) => {
+		try {
+			const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/prompts/${id}/categories/${selectedCat}`);
 			setPromptsInCategory(response.data);
 		} catch (error) {
-			console.error('Error fetching prompts in category:', error);
+			handleError(error, 'Failed to fetch prompts in selected category. Please try again later.');
 		}
-	};
+	}, [id]);
 
 	const handleCategoryChange = (event) => {
 		const selectedCat = event.target.value;
@@ -51,7 +59,7 @@ const PromptLibraryPage = ({ onLogOut, user }) => {
 	const deleteSelectedPrompt = () => {
 		if (selectedPrompt) {
 			axios
-				.delete(`${process.env.REACT_APP_BACKEND_URL}/prompts/${user.id}/${selectedPrompt.id}`)
+				.delete(`${process.env.REACT_APP_BACKEND_URL}/prompts/${id}/${selectedPrompt.id}`)
 				.then(() => {
 					console.log('Prompt deleted');
 					fetchPromptsInCategory(selectedCategory);
@@ -66,25 +74,25 @@ const PromptLibraryPage = ({ onLogOut, user }) => {
 	};
 
 	// Function to fetch prompts
-	const fetchPrompts = async () => {
+	const fetchPrompts = useCallback(async () => {
 		try {
-			const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/prompts/${user.id}/`);
+			const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/prompts/${id}/`);
 
-			// if (response.data && response.data.length > 0) {
-			// 	const promptData = response.data[0]; // Assuming you want to load the first prompt
-			// 	setTitle(promptData.title);
-			// 	setCategory(promptData.category);
-			// 	setPrompt(promptData.prompt);
-			// }
+			if (response.data && response.data.length > 0) {
+				const promptData = response.data[0]; // Assuming you want to load the first prompt
+				setTitle(promptData.title);
+				setCategory(promptData.category);
+				setPrompt(promptData.prompt);
+			}
 		} catch (error) {
 			console.error('Error fetching prompts:', error);
 		}
-	};
+	}, [id]);
 
 	useEffect(() => {
 		fetchPrompts();
 		fetchCategories();
-	}, []);
+	}, [fetchPrompts, fetchCategories]);
 
 	const fetchPromptsAndUpdateState = async () => {
 		// Fetch categories
@@ -99,9 +107,9 @@ const PromptLibraryPage = ({ onLogOut, user }) => {
 	const handleSubmitPrompt = (event) => {
 		event.preventDefault();
 
-		// Add a debug statement to print user and user.id
+		// Add a debug statement to print and id
 		console.log('User:', user);
-		console.log('User ID:', user.id);
+		console.log('User ID:', id);
 
 		// Make a POST request to create a new user account
 		axios
@@ -138,13 +146,7 @@ const PromptLibraryPage = ({ onLogOut, user }) => {
 		<div className="container">
 			<header>
 				<h1>Prompt Input</h1>
-				<nav>
-					<Link to="/dashboard">Dashboard</Link>
-					<Link to="/prompt-library">Prompt Library</Link>
-					<Link to="/api-keys">API Keys Page</Link>
-					<Link to="/account-details">Account Details</Link>
-					<button onClick={handleLogOut}>Log Out</button>
-				</nav>
+				<Navigation handleLogOut={handleLogOut} />
 			</header>
 			<form id="prompt-form" onSubmit={handleSubmitPrompt}>
 				<label htmlFor="title">Title:</label>
@@ -195,6 +197,7 @@ const PromptLibraryPage = ({ onLogOut, user }) => {
 				</select>
 				<button type="button" onClick={deleteSelectedPrompt}>Delete Prompt</button>
 			</form>
+			{error && <div className="error-message">{error}</div>}
 		</div>
 	);
 };

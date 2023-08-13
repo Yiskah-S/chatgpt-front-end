@@ -1,42 +1,36 @@
 // AccountDetails.js
 
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './AccountDetails.css';
+import Navigation from './Navigation';
 
 const AccountDetails = ({ onLogOut, user }) => {
-
-    const navigate = useNavigate();
+	const { username, email, id } = user; // Destructuring user properties
+	const navigate = useNavigate();
 
 	const handleLogOut = () => {
 		onLogOut();
-		navigate('/'); 
+		navigate('/');
 	};
-
 
 	return (
 		<div className="container">
 			<header>
 				<h1>ChatGPT Crawler Site</h1>
-				<nav>
-                    <Link to="/dashboard">Dashboard</Link>
-					<Link to="/prompt-library">Prompt Library</Link>
-					<Link to="/api-keys">API Keys Page</Link>
-					<Link to="/account-details">Account Details</Link>
-					<button onClick={handleLogOut}>Log Out</button>
-				</nav>
+				<Navigation handleLogOut={handleLogOut} />
 			</header>
 			<main>
 				<section>
 					<h2>Account Details</h2>
 					<p>
-						<strong>Username:</strong> {user.username}
+						<strong>Username:</strong> {username}
 					</p>
 					<p>
-						<strong>Email:</strong> {user.email}
+						<strong>Email:</strong> {email}
 					</p>
 					<p>
-						<strong>ID:</strong> {user.id}
+						<strong>ID:</strong> {id}
 					</p>
 				</section>
 			</main>
