@@ -25,7 +25,7 @@ const PromptLibraryPage = ({ onLogOut, user }) => {
 
 	const fetchCategories = useCallback(async () => {
 		try {
-			const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/prompts/${id}/categories`);
+			const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/prompts/${id}/categories/`);
 			setCategories(response.data);
 		} catch (error) {
 			handleError(error, 'Failed to fetch categories. Please try again later.');
@@ -34,7 +34,7 @@ const PromptLibraryPage = ({ onLogOut, user }) => {
 
 	const fetchPromptsInCategory = useCallback(async (selectedCat) => {
 		try {
-			const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/prompts/${id}/categories/${selectedCat}`);
+			const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/prompts/${id}/categories/${selectedCat}/`);
 			setPromptsInCategory(response.data);
 		} catch (error) {
 			handleError(error, 'Failed to fetch prompts in selected category. Please try again later.');
@@ -59,7 +59,7 @@ const PromptLibraryPage = ({ onLogOut, user }) => {
 	const deleteSelectedPrompt = () => {
 		if (selectedPrompt) {
 			axios
-				.delete(`${process.env.REACT_APP_BACKEND_URL}/prompts/${id}/${selectedPrompt.id}`)
+				.delete(`${process.env.REACT_APP_BACKEND_URL}/prompts/${id}/${selectedPrompt.id}/`)
 				.then(() => {
 					console.log('Prompt deleted');
 					fetchPromptsInCategory(selectedCategory);

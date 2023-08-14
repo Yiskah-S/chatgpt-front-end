@@ -24,7 +24,7 @@ const CreateAccount = ({ onCreateAccountClick }) => {
 
 		// Make a POST request to create a new user account
 		axios
-			.post(`${process.env.REACT_APP_BACKEND_URL}/users`, {
+			.post(`${process.env.REACT_APP_BACKEND_URL}/users/`, {
 				username: newUsername,
 				email: newEmail,
 				password: newPassword,

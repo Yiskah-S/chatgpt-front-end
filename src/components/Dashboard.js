@@ -25,7 +25,7 @@ const Dashboard = ({ onLogOut, user }) => {
 
 	const fetchCategories = async () => {
 		try {
-			const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/prompts/${user.id}/categories`);
+			const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/prompts/${user.id}/categories/`);
 			setCategories(response.data);
 		} catch (error) {
 			handleError(error, 'Failed to fetch categories. Please try again later.');
@@ -34,7 +34,7 @@ const Dashboard = ({ onLogOut, user }) => {
 
 	const fetchPromptsInCategory = async (selectedCat) => {
 		try {
-			const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/prompts/${user.id}/categories/${selectedCat}`);
+			const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/prompts/${user.id}/categories/${selectedCat}/`);
 			setPromptsInCategory(response.data);
 		} catch (error) {
 			handleError(error, 'Failed to fetch prompts in selected category. Please try again later.');

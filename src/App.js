@@ -29,7 +29,7 @@ const App = () => {
 
 	const handleSignInClick = async (email, password) => {
 		try {
-			const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/login`, {
+			const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/login/`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
