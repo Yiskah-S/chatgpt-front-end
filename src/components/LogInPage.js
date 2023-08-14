@@ -14,7 +14,7 @@ const LogInPage = ({ onSignInClick, onCreateAccountClick, setUser, user }) => {
 		event.preventDefault();
 	
 		try {
-		  // Adds debug statement to check the endpoint being called
+		// Adds debug statement to check the endpoint being called
 			console.log('Sending login request...');
 		
 			const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/login/`, {
