@@ -2,13 +2,14 @@
 
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import CreateAccount from './components/CreateAccount.js';
-import LogInPage from './components/LogInPage.js';
-import Dashboard from './components/Dashboard.js';
-import PromptLibrary from './components/PromptLibrary.js';
-import AccountDetails from './components/AccountDetails.js';
-import APIKeysPage from './components/APIKeysPage.js';
+import CreateAccount from './components/CreateAccount';
+import LogInPage from './components/LogInPage';
+import Dashboard from './components/Dashboard';
+import PromptLibrary from './components/PromptLibrary';
+import AccountDetails from './components/AccountDetails';
+import APIKeysPage from './components/APIKeysPage';
 import './App.css';
+
 
 const LandingPage = () => {
 	return (
@@ -23,10 +24,10 @@ const LandingPage = () => {
 
 const App = () => {
 	const [loggedIn, setLoggedIn] = useState(false);
-	const [isCreateAccountVisible, setIsCreateAccountVisible] = useState(true);
-	const [loginError, setLoginError] = useState('');
 	const [user, setUser] = useState(null);
+	const [loginError, setLoginError] = useState(null);
 
+	// Handler for user sign-in
 	const handleSignInClick = async (email, password) => {
 		try {
 			const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/login/`, {
@@ -39,9 +40,9 @@ const App = () => {
 
 			if (response.ok) {
 				const userData = await response.json();
-				setUser(userData); // Store user data on successful login
+				setUser(userData); 
 				setLoggedIn(true);
-				setLoginError(''); // Clear any previous login error
+				setLoginError(''); 
 			} else {
 				const errorData = await response.json();
 				setLoginError(errorData.error || 'Invalid username/password');
@@ -52,21 +53,22 @@ const App = () => {
 		}
 	};
 
+	// Handler for user account creation
 	const handleCreateAccountClick = () => {
-		setIsCreateAccountVisible(true);
 		setLoggedIn(false);
 	};
 
+	// Handler for user logout
 	const handleLogOut = () => {
-		setUser(null); // Clear user data on logout
+		setUser(null); 
 		setLoggedIn(false);
-		setIsCreateAccountVisible(false);
 	};
 
 	return (
 		<Router>
 			<div>
 				<h1>ChatGPT Crawler Site</h1>
+				{loginError && <p className="error">{loginError}</p>}
 				<Routes>
 					<Route path="/" element={<LandingPage />} />
 					{loggedIn ? (

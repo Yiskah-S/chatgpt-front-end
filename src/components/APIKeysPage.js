@@ -1,6 +1,6 @@
 // APIKeysPage.js
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Navigation from './Navigation';
@@ -15,9 +15,9 @@ const APIKeysPage = ({ onLogOut, user }) => {
 	});
 	const navigate = useNavigate();
 
-	const fetchAPIKeys = async () => {
+	// Fetch API keys
+	const fetchAPIKeys = useCallback(async () => {
 		try {
-			console.log('Fetching API keys...');
 			const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api-keys/${user.id}/`);
 			// Extracted logic for setting keys
 			if (response.data && response.data.length > 0) {
@@ -32,11 +32,13 @@ const APIKeysPage = ({ onLogOut, user }) => {
 		} catch (error) {
 			console.error('Error fetching API keys:', error);
 		}
-	};
+	}, [user.id]);
+	// Added fetchAPIKeys to dependency array
 	useEffect(() => {
 		fetchAPIKeys();
-	}, []);
+	}, [fetchAPIKeys]);
 
+	// Handler for input change
 	const handleInputChange = (name, value) => {
 		setApiKeys((prevState) => ({
 			...prevState,
@@ -44,6 +46,7 @@ const APIKeysPage = ({ onLogOut, user }) => {
 		}));
 	};
 
+	// Handler for API key form submission
 	const handleSubmitAPIKeys = async (event) => {
 		event.preventDefault();
 		const url = `${process.env.REACT_APP_BACKEND_URL}/api-keys/${user.id}/`;
@@ -59,12 +62,12 @@ const APIKeysPage = ({ onLogOut, user }) => {
 			} else {
 				await axios.post(url, { apiKeys: keysArray });
 			}
-			console.log('API keys updated successfully');
 		} catch (error) {
 			console.error('Error updating API keys', error);
 		}
 	};
 
+	// Handler for logout
 	const handleLogOut = () => {
 		onLogOut();
 		navigate('/');

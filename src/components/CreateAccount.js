@@ -1,8 +1,8 @@
 // CreateAccount.js
 
+import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
 import './CreateAccount.css';
 
 const CreateAccount = ({ onCreateAccountClick }) => {
@@ -11,8 +11,7 @@ const CreateAccount = ({ onCreateAccountClick }) => {
 	const [newPassword, setNewPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 
-	const navigate = useNavigate(); // Initialize the navigate function
-
+	// Handler for account creation form submission
 	const handleSubmit = (event) => {
 		event.preventDefault();
 
@@ -46,45 +45,14 @@ const CreateAccount = ({ onCreateAccountClick }) => {
 				<h2>Create Account</h2>
 				<form id="create-account-form" onSubmit={handleSubmit}>
 					<label htmlFor="new-username">Username:</label>
-					<input
-						type="text"
-						id="new-username"
-						name="new-username"
-						value={newUsername}
-						onChange={(e) => setNewUsername(e.target.value)}
-						required
-					/>
-
+					<label htmlFor="new-username">Username:</label>
+					<input type="text" id="new-username" name="new-username" value={newUsername} onChange={(e) => setNewUsername(e.target.value)} required />
 					<label htmlFor="new-email">Email:</label>
-					<input
-						type="email"
-						id="new-email"
-						name="new-email"
-						value={newEmail}
-						onChange={(e) => setNewEmail(e.target.value)}
-						required
-					/>
-
+					<input type="email" id="new-email" name="new-email" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} required />
 					<label htmlFor="new-password">Password:</label>
-					<input
-						type="password"
-						id="new-password"
-						name="new-password"
-						value={newPassword}
-						onChange={(e) => setNewPassword(e.target.value)}
-						required
-					/>
-
+					<input type="password" id="new-password" name="new-password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required />
 					<label htmlFor="confirm-password">Confirm Password:</label>
-					<input
-						type="password"
-						id="confirm-password"
-						name="confirm-password"
-						value={confirmPassword}
-						onChange={(e) => setConfirmPassword(e.target.value)}
-						required
-					/>
-
+					<input type="password" id="confirm-password" name="confirm-password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
 					<button type="submit">Create Account</button>
 				</form>
 				<p>

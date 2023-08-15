@@ -3,6 +3,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+// Navigation bar component for the application
 const Navigation = ({ handleLogOut }) => (
 	<nav>
 		<Link to="/dashboard">Dashboard</Link>
