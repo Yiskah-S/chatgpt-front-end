@@ -73,7 +73,7 @@ const APIKeysPage = ({ onLogOut, user }) => {
 	const formFields = [
 		{ name: 'chatgptKey', label: 'ChatGPT API Key:' },
 		{ name: 'notionKey', label: 'Notion API Key:' },
-		{ name: 'googleDocsKey', label: 'Google Docs API Key:' },
+		{ name: 'notionDbId', label: 'Notion Database ID:' },
 		{ name: 'capacitiesKey', label: 'Capacities API Key:' },
 	];
 

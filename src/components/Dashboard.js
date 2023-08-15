@@ -61,7 +61,9 @@ const Dashboard = ({ onLogOut, user }) => {
 		console.log('Data to send:', dataToSend);
 		try {
 			const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/dashboard/${user.id}/`, dataToSend);
-			setServerResponse(response.data.response); // Use the response text
+			setServerResponse(response.data.response_text); // Use the response text
+			console.log('Response ID:', response.data.response_id);
+			console.log('Response:', response.data.response_text);
 			setResponseId(response.data.response_id); // Store the response ID
 			setOutputVisible(true);
 		} catch (error) {
