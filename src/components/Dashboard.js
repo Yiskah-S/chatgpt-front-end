@@ -1,10 +1,10 @@
 // Dashboard.js
 
+import { Button, Container, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import Navigation from './Navigation';
-import './Dashboard.css';
+import axios from 'axios';
 
 const Dashboard = ({ onLogOut, user }) => {
 	const [targetWebsite, setTargetWebsite] = useState('');
@@ -130,77 +130,82 @@ const Dashboard = ({ onLogOut, user }) => {
 		fetchCategories();
 	}, [fetchCategories]);
 
+
 	return (
-		<div className="container">
-			<header>
-				<h1>Dashboard</h1>
-				<Navigation handleLogOut={handleLogOut} />
-				<h2>Hi, {user.username}!</h2>
+		<Container>
+			<header className="bg-custom-header">
+				<Container className="mt-5 custom-container">
+					<div className="w-100 text-center p-3">
+						<h1>Dashboard</h1>
+					</div>
+				<Navigation handleLogOut={handleLogOut} user={user} />
+				</Container>
 			</header>
-			<main>
-				<section id="crawl-section">
-					<h2>Crawl Website</h2>
-					<label htmlFor="target-website">Target Website:</label>
-					<input
-						type="text"
-						id="target-website"
-						name="target-website"
-						value={targetWebsite}
-						onChange={(e) => setTargetWebsite(e.target.value)}
-						required
-					/>
-					<label htmlFor="category-select">Select Category:</label>
-					<select id="category-select" onChange={handleCategoryChange}>
-						<option value="">--Select Category--</option>
-						{categories.map((cat) => (
-							<option value={cat} key={cat}>
-								{cat}
-							</option>
-						))}
-					</select>
-					<label htmlFor="prompt-select">Select Prompt:</label>
-					<select id="prompt-select" onChange={handlePromptChange}>
-						<option value="">--Select Prompt--</option>
-						{promptsInCategory.map((p) => (
-							<option value={p.id} key={p.id}>
-								{p.title}
-							</option>
-						))}
-					</select>
-					{selectedPrompt && (
-						<div className="selected-prompt">
-							<h3>Selected Prompt:</h3>
-							<p>{selectedPrompt.prompt}</p>
-						</div>
-					)}
-					<button type="button" id="run-button" onClick={handleRunCrawler}>Run Crawler</button>
-				</section>
-					{outputVisible && (
-					<section id="output-section">
-						<h2>Output Results:</h2>
-						<p>Target Website: {targetWebsite}</p>
-						<p>Selected Prompt: {selectedPrompt ? selectedPrompt.prompt : 'None'}</p>
-						<p>Server Response: {serverResponse}</p>
-					</section>
-					)}
-					<label htmlFor="output-format">Save to:</label>
-					<select
-						id="output-format"
-						name="output-format"
-						value={outputFormat}
-						onChange={(e) => setOutputFormat(e.target.value)}
-					>
-						<option value="notion">Notion</option>
-						<option value="txt">.txt</option>
-						<option value="md">.md</option>
-						<option value="google-docs">Google Docs</option>
-				</select>
-				<button type="button" onClick={handleSaveResults}>Save Results</button>
-				<div id="notion-message"></div>
-			</main>
-		</div>
+			
+			<div className="bg-custom-box">
+				<Container className="mt-5 custom-container">
+					<main>
+						<section id="crawl-section" className="mb-4">
+							<Form>
+								<FormGroup>
+									<Label htmlFor="target-website">Target Website:</Label>
+									<Input type="text" id="target-website" name="target-website" value={targetWebsite} onChange={(e) => setTargetWebsite(e.target.value)} required />
+								</FormGroup>
+								<FormGroup>
+									<Label htmlFor="category-select">Select Category:</Label>
+									<Input type="select" id="category-select" onChange={handleCategoryChange}>
+										<option value="">--Select Category--</option>
+										{categories.map((cat) => (
+											<option value={cat} key={cat}>
+												{cat}
+											</option>
+										))}
+									</Input>
+								</FormGroup>
+								<FormGroup>
+									<Label htmlFor="prompt-select">Select Prompt:</Label>
+									<Input type="select" id="prompt-select" onChange={handlePromptChange}>
+										<option value="">--Select Prompt--</option>
+										{promptsInCategory.map((p) => (
+											<option value={p.id} key={p.id}>
+												{p.title}
+											</option>
+										))}
+									</Input>
+								</FormGroup>
+								{selectedPrompt && (
+									<div className="selected-prompt">
+										<h3>Selected Prompt:</h3>
+										<p>{selectedPrompt.prompt}</p>
+									</div>
+								)}
+								<Button type="button" id="run-button" color="primary" onClick={handleRunCrawler}>Run Crawler</Button>
+							</Form>
+						</section>
+						{outputVisible && (
+						<section id="output-section" className="mb-4">
+							<h3>Output Results:</h3>
+							<p>Target Website: {targetWebsite}</p>
+							<p>Selected Prompt: {selectedPrompt ? selectedPrompt.prompt : 'None'}</p>
+							<p>Server Response: {serverResponse}</p>
+						</section>
+						)}
+						<FormGroup>
+							<Label htmlFor="output-format">Save to:</Label>
+							<Input type="select" id="output-format" name="output-format" value={outputFormat} onChange={(e) => setOutputFormat(e.target.value)}>
+								<option value="notion">Notion</option>
+								<option value="txt">.txt</option>
+								<option value="md">.md</option>
+								<option value="google-docs">Google Docs</option>
+							</Input>
+						</FormGroup>
+						<Button type="button" color="success" onClick={handleSaveResults}>Save Results</Button>
+						<div id="notion-message" className="strong-text"></div>
+					</main>
+				</Container>
+			</div>
+		</Container>
 	);
 };
-	
+
 export default Dashboard;
-	

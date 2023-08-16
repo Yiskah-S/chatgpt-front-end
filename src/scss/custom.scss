@@ -1,0 +1,54 @@
+// custom.scss
+
+.bg-custom-header {
+    background-color: #f0f0f0;
+    border-radius: 0.25rem;
+}
+
+.bg-custom-box {
+    background-color: #f0f0f0;
+    border-radius: 0.25rem;
+}
+
+.custom-container {
+	padding: 15px;
+}
+
+.custom-link-h1 {
+	text-decoration: underline;
+	font-weight: bold;
+	&:hover {
+		color: #0056b3; // Choose a color for hover effect
+	}
+}
+
+.custom-link {
+	color: #007bff; // You can choose a color that matches your theme
+	text-decoration: underline;
+	font-weight: bold;
+	&:hover {
+		color: #0056b3; // Choose a color for hover effect
+	}
+}
+
+.strong-text {
+	font-size: 1.2em; 
+    margin-right: 15px;
+}
+
+#notion-message {
+	text-align: center; /* Center the text for this specific element */
+	margin-bottom: 20px; /* Increase space between the message and the button */
+}
+
+// $primary:       $blue;
+// $secondary:     $gray-600;
+// $success:       $green;
+// $info:          $cyan;
+// $warning:       $yellow;
+// $danger:        $red;
+// $light:         $gray-100;
+// $dark:          $gray-900;
+
+
+@import "../../node_modules/bootstrap/scss/bootstrap";

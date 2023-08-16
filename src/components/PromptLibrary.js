@@ -1,10 +1,10 @@
 // PromptLibrary.js
 
+import { Button, Container, Form, FormGroup, Label, Input, Select, Dropdown, Alert } from 'reactstrap';
 import React, { useCallback, useState, useEffect} from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './PromptLibrary.css';
 import Navigation from './Navigation';
+import axios from 'axios';
 
 const PromptLibraryPage = ({ onLogOut, user }) => {
 	const { id } = user;
@@ -143,63 +143,97 @@ const PromptLibraryPage = ({ onLogOut, user }) => {
 	};
 
 	return (
-		<div className="container">
-			<header>
-				<h1>Prompt Input</h1>
-				<Navigation handleLogOut={handleLogOut} />
+		<Container>
+			<header className="bg-custom-header">
+				<Container className="mt-5 custom-container">
+					<div className="w-100 text-center p-3">
+						<h1>Prompt Input</h1>
+					</div>
+						<Navigation handleLogOut={handleLogOut} user={user} />
+				</Container>
 			</header>
-			<form id="prompt-form" onSubmit={handleSubmitPrompt}>
-				<label htmlFor="title">Title:</label>
-				<input
-					type="text"
-					id="title"
-					name="title"
-					value={title}
-					onChange={(e) => setTitle(e.target.value)}
-					required
-				/>
-				<label htmlFor="category">Category:</label>
-				<input
-					type="text"
-					id="category"
-					name="category"
-					value={category}
-					onChange={(e) => setCategory(e.target.value)}
-					required
-				/>
-				<label htmlFor="prompt">Prompt:</label>
-				<textarea
-					id="prompt"
-					name="prompt"
-					rows="5"
-					value={prompt}
-					onChange={(e) => setPrompt(e.target.value)}
-					required
-				></textarea>
-				<button type="submit">Save Prompt</button>
-				<label htmlFor="category-select">Select Category:</label>
-				<select id="category-select" onChange={handleCategoryChange}>
-					<option value="">--Select Category--</option>
-					{categories.map((cat) => (
-						<option value={cat} key={cat}>
-							{cat}
-						</option>
-					))}
-				</select>
-				<label htmlFor="prompt-select">Select Prompt:</label>
-				<select id="prompt-select" onChange={handlePromptChange}>
-					<option value="">--Select Prompt--</option>
-					{promptsInCategory.map((p) => (
-						<option value={p.id} key={p.id}>
-							{p.title}
-						</option>
-					))}
-				</select>
-				<button type="button" onClick={deleteSelectedPrompt}>Delete Prompt</button>
-			</form>
-			{error && <div className="error-message">{error}</div>}
-		</div>
+			<div className="bg-custom-box">
+				<Container className="mt-5 custom-container">
+					<Form id="prompt-form" onSubmit={handleSubmitPrompt} className="mt-4">
+						<section id="save-prompt-section" className="mb-4">
+							<FormGroup className="mb-3">
+								<Label htmlFor="title">Title:</Label>
+								<Input
+									type="text"
+									id="title"
+									name="title"
+									value={title}
+									onChange={(e) => setTitle(e.target.value)}
+									required
+								/>
+							</FormGroup>
+							<FormGroup className="mb-3">
+								<Label htmlFor="category">Category:</Label>
+								<Input
+									type="text"
+									id="category"
+									name="category"
+									value={category}
+									onChange={(e) => setCategory(e.target.value)}
+									required
+								/>
+							</FormGroup>
+							<FormGroup className="mb-3">
+								<Label htmlFor="prompt">Prompt:</Label>
+								<Input
+									type="textarea"
+									id="prompt"
+									name="prompt"
+									rows="5"
+									value={prompt}
+									onChange={(e) => setPrompt(e.target.value)}
+									required
+								/>
+							</FormGroup>
+							<Button type="submit" color="primary">Save Prompt</Button>
+						</section>
+
+
+
+
+						<FormGroup className="mb-3">
+							<Label htmlFor="category-select">Select Category:</Label>
+							<Input
+								type="select"
+								id="category-select"
+								onChange={handleCategoryChange}
+							>
+								<option value="">--Select Category--</option>
+								{categories.map((cat) => (
+									<option value={cat} key={cat}>
+										{cat}
+									</option>
+								))}
+							</Input>
+						</FormGroup>
+						<FormGroup className="mb-3">
+							<Label htmlFor="prompt-select">Select Prompt:</Label>
+							<Input
+								type="select"
+								id="prompt-select"
+								onChange={handlePromptChange}
+							>
+								<option value="">--Select Prompt--</option>
+								{promptsInCategory.map((p) => (
+									<option value={p.id} key={p.id}>
+										{p.title}
+									</option>
+								))}
+							</Input>
+						</FormGroup>
+						<Button type="button" onClick={deleteSelectedPrompt} color="danger">Delete Prompt</Button>
+						{error && <Alert color="danger">{error}</Alert>}
+					</Form>
+				</Container>	
+			</div>
+		</Container>			
 	);
 };
 
 export default PromptLibraryPage;
+

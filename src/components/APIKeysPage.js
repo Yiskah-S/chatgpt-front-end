@@ -1,10 +1,10 @@
 // APIKeysPage.js
 
+import { Button, Container, Form, FormGroup, Label, Input, Select, Dropdown, Alert } from 'reactstrap';
 import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Navigation from './Navigation';
-import './APIKeysPage.css';
+import axios from 'axios';
 
 const APIKeysPage = ({ onLogOut, user }) => {
 	const [apiKeys, setApiKeys] = useState({
@@ -81,32 +81,40 @@ const APIKeysPage = ({ onLogOut, user }) => {
 	];
 
 	return (
-		<div className="container">
-			<header>
-				<h1>Dashboard</h1>
-				<h2>Hi, {user.username}!</h2>
-				<Navigation handleLogOut={handleLogOut} />
-			</header>
-			<main>
-				<div className="api-key-form">
-					<h1>API Key Setup</h1>
-					<form onSubmit={handleSubmitAPIKeys}>
-						{formFields.map((field) => (
-							<div key={field.name}>
-								<label htmlFor={field.name}>{field.label}</label>
-								<input
-									type="text"
-									name={field.name}
-									value={apiKeys[field.name]}
-									onChange={(e) => handleInputChange(field.name, e.target.value)}
-								/>
-							</div>
-						))}
-						<button type="submit">Save API Keys</button>
-					</form>
+		<Container>
+		<header className="bg-custom-header">
+			<Container className="mt-5 custom-container">
+				<div className="w-100 text-center p-3">
+					<h1>API Keys</h1>
 				</div>
-			</main>
+			<Navigation handleLogOut={handleLogOut} user={user} />
+			</Container>
+		</header>
+
+		<div className="bg-custom-box">
+			<Container className="mt-5 custom-container">
+				<main>
+					<div className="api-key-form">
+						<h1>API Key Setup</h1>
+						<Form onSubmit={handleSubmitAPIKeys}>
+							{formFields.map((field) => (
+								<FormGroup className="mb-3" key={field.name}>
+									<Label htmlFor={field.name} className="form-label">{field.label}</Label>
+									<Input
+										type="text"
+										name={field.name}
+										value={apiKeys[field.name]}
+										onChange={(e) => handleInputChange(field.name, e.target.value)}
+									/>
+								</FormGroup>
+							))}
+							<Button type="submit" color="primary">Save API Keys</Button>
+						</Form>
+					</div>
+				</main>
+			</Container>
 		</div>
+		</Container>
 	);
 };
 

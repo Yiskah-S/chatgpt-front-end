@@ -1,26 +1,45 @@
 // App.js
 
-import React, { useState } from 'react';
+import { Button, Container, NavItem, Alert, NavLink } from 'reactstrap';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import AccountDetails from './components/AccountDetails';
+import PromptLibrary from './components/PromptLibrary';
 import CreateAccount from './components/CreateAccount';
+import APIKeysPage from './components/APIKeysPage';
 import LogInPage from './components/LogInPage';
 import Dashboard from './components/Dashboard';
-import PromptLibrary from './components/PromptLibrary';
-import AccountDetails from './components/AccountDetails';
-import APIKeysPage from './components/APIKeysPage';
-import './App.css';
+import React, { useState } from 'react';
 
 
 const LandingPage = () => {
 	return (
-		<div className="container">
-			<h1>Welcome to ChatGPT Crawler Site</h1>
-			<p>Explanation of how the website works goes here.</p>
-			<Link to="/signin">Sign In</Link>
-			<Link to="/create-account">Create Account</Link>
-		</div>
+		<Container>
+			<header className="bg-custom-header">
+				<Container className="mt-5 custom-container">
+					<div className="w-100 text-center p-3">
+						<h1>Welcome to ChatGPT Crawler Site</h1>
+					</div>
+				</Container>
+			</header>
+
+			<div className="bg-custom-box">
+				<Container className="mt-5 custom-container">
+					<main>
+						<Container className="text-center">
+							<p class="lead" >
+							This is a lead paragraph. It stands out from regular paragraphs.
+							</p>
+							<p>Explanation of how the website works goes here.</p>					
+							<Button tag={Link} to="/create-account" color="primary" className="m-2">Create Account</Button>
+							<Button tag={Link} to="/signin" color="primary" className="m-2">Sign In</Button>
+						</Container>
+					</main>
+				</Container>
+			</div>
+		</Container>
 	);
 };
+
 
 const App = () => {
 	const [loggedIn, setLoggedIn] = useState(false);
@@ -66,18 +85,17 @@ const App = () => {
 
 	return (
 		<Router>
-			<div>
-				<h1>ChatGPT Crawler Site</h1>
-				{loginError && <p className="error">{loginError}</p>}
+			<Container>
+				{loginError && <Alert color="danger">{loginError}</Alert>}
 				<Routes>
-					<Route path="/" element={<LandingPage />} />
+					<Route path="/" element={<LandingPage user={user} onLogOut={handleLogOut} />} />
 					{loggedIn ? (
 						<>
 							<Route path="/dashboard" element={<Dashboard user={user} onLogOut={handleLogOut} />} />
 							<Route path="/api-keys" element={<APIKeysPage user={user} onLogOut={handleLogOut} />} />
 							<Route path="/prompt-library" element={<PromptLibrary user={user} onLogOut={handleLogOut} />} />
 							<Route path="/account-details" element={<AccountDetails user={user} onLogOut={handleLogOut} />} />
-						</>
+							</>
 					) : (
 						<>
 							<Route
@@ -98,11 +116,9 @@ const App = () => {
 						</>
 					)}
 				</Routes>
-			</div>
+			</Container>
 		</Router>
 	);
 };
-
-
 
 export default App;
