@@ -27,13 +27,11 @@
     "webpack": "^5.88.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build:css": "sass src/scss:dist/css",
-    "heroku-postbuild": "yarn build:css && react-scripts build"
-
+    "heroku-postbuild": "yarn build"
   },
   "eslintConfig": {
     "extends": [
@@ -55,5 +53,9 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+  },
+  "engines": {
+    "node": "20.x",
+    "yarn": "1.22.x"
   }
 }
