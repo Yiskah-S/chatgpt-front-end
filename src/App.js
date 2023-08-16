@@ -16,7 +16,7 @@ const LandingPage = () => {
 		<Container>
 			<header className="bg-custom-header">
 				<Container className="mt-5 custom-container">
-					<div className="w-100 text-center p-3">
+					<div className="w-100 text-center p-3 color-1">
 						<h1>Welcome to ChatGPT Crawler Site</h1>
 					</div>
 				</Container>
@@ -26,10 +26,21 @@ const LandingPage = () => {
 				<Container className="mt-5 custom-container">
 					<main>
 						<Container className="text-center">
-							<p class="lead" >
-							This is a lead paragraph. It stands out from regular paragraphs.
+							<p className="lead">
+							Explore a new world of AI-driven content creation with the ChatGPT Crawler Site.
 							</p>
-							<p>Explanation of how the website works goes here.</p>					
+							<p>Our platform allows you to seamlessly integrate the power of ChatGPT with your preferred notion database. With a personalized dashboard, you can set up targeted crawls, customize prompts, and generate insightful content within seconds.</p>
+							<p>Here's how it works:</p>
+							<div className="center-box text-right">
+								<ul>
+									<li><strong className="color-2"> Create an Account:</strong> Sign up and gain access to our unique features.</li>
+									<li><strong className="color-2">API Key Page:</strong> Safely store your ChatGPT and Notion API keys.</li>
+									<li><strong className="color-2">Prompt Library:</strong> Customize and store prompts with titles and categories.</li>
+									<li><strong className="color-2">Dashboard:</strong> Choose your target website and prompt. Our crawler retrieves the content, processes it through ChatGPT, and displays the response.</li>
+									<li><strong className="color-2">Save or Download:</strong> Store the generated response in your Notion database or download it as a .txt or .md file.</li>
+								</ul>
+							</div>
+							<p>Join us today, and unleash the potential of AI in your content strategy.</p>
 							<Button tag={Link} to="/create-account" color="primary" className="m-2">Create Account</Button>
 							<Button tag={Link} to="/signin" color="primary" className="m-2">Sign In</Button>
 						</Container>
@@ -39,6 +50,7 @@ const LandingPage = () => {
 		</Container>
 	);
 };
+
 
 
 const App = () => {

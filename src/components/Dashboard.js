@@ -136,7 +136,7 @@ const Dashboard = ({ onLogOut, user }) => {
 			<header className="bg-custom-header">
 				<Container className="mt-5 custom-container">
 					<div className="w-100 text-center p-3">
-						<h1>Dashboard</h1>
+						<h1 className="color-1">Dashboard</h1>
 					</div>
 				<Navigation handleLogOut={handleLogOut} user={user} />
 				</Container>
@@ -175,7 +175,7 @@ const Dashboard = ({ onLogOut, user }) => {
 								</FormGroup>
 								{selectedPrompt && (
 									<div className="selected-prompt">
-										<h3>Selected Prompt:</h3>
+										<h3 className="color-1">Selected Prompt:</h3>
 										<p>{selectedPrompt.prompt}</p>
 									</div>
 								)}
@@ -184,10 +184,10 @@ const Dashboard = ({ onLogOut, user }) => {
 						</section>
 						{outputVisible && (
 						<section id="output-section" className="mb-4">
-							<h3>Output Results:</h3>
-							<p>Target Website: {targetWebsite}</p>
-							<p>Selected Prompt: {selectedPrompt ? selectedPrompt.prompt : 'None'}</p>
-							<p>Server Response: {serverResponse}</p>
+							<h3 className="color-1">Output Results:</h3>
+							<p><strong className="color-2">Target Website:</strong> {targetWebsite}</p>
+							<p><strong className="color-2">Selected Prompt:</strong> {selectedPrompt ? selectedPrompt.prompt : 'None'}</p>
+							<p><strong className="color-2">Server Response:</strong> {serverResponse}</p>
 						</section>
 						)}
 						<FormGroup>
@@ -199,8 +199,8 @@ const Dashboard = ({ onLogOut, user }) => {
 								<option value="google-docs">Google Docs</option>
 							</Input>
 						</FormGroup>
-						<Button type="button" color="success" onClick={handleSaveResults}>Save Results</Button>
-						<div id="notion-message" className="strong-text"></div>
+						<Button type="button" color="secondary" onClick={handleSaveResults}>Save Results</Button>
+						<div id="notion-message" className="color-1"></div>
 					</main>
 				</Container>
 			</div>

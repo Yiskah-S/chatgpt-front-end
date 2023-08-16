@@ -10,24 +10,24 @@ const Navigation = ({ handleLogOut, user }) => (
 		<Container className="d-flex justify-content-center">
 			<Nav className="mx-auto">
 				<NavItem>
-					<Button tag={Link} to="/dashboard" outline color="primary" className="m-2">Dashboard</Button>
+					<Button tag={Link} to="/dashboard" color="secondary" className="m-2">Dashboard</Button>
 				</NavItem>
 				<NavItem>
-					<Button tag={Link} to="/prompt-library" outline color="primary" className="m-2">Prompt Library</Button>
+					<Button tag={Link} to="/prompt-library" color="secondary" className="m-2">Prompt Library</Button>
 				</NavItem>
 				<NavItem>
-					<Button tag={Link} to="/api-keys" outline color="primary" className="m-2">API Keys Page</Button>
+					<Button tag={Link} to="/api-keys" color="secondary" className="m-2">API Keys Page</Button>
 				</NavItem>
 				<NavItem>
-					<Button tag={Link} to="/account-details" outline color="primary" className="m-2">Account Details</Button>
+					<Button tag={Link} to="/account-details" color="secondary" className="m-2">Account Details</Button>
 				</NavItem>
 				<NavItem>
-					<Button onClick={handleLogOut} color="primary" className="m-2">Log Out</Button>
+					<Button onClick={handleLogOut} outline color="primary" className="m-2">Log Out</Button>
 				</NavItem>
 			</Nav>
 		</Container>
 		<div className="w-100 text-center p-3">
-			<h2>Hi, {user.username}!</h2>
+			<h2 className="color-1">Hi, {user.username}!</h2>
 		</div>
 	</Navbar>
 );

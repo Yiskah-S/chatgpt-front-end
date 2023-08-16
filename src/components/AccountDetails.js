@@ -19,7 +19,7 @@ const AccountDetails = ({ onLogOut, user }) => {
 			<header className="bg-custom-header">
 				<Container className="mt-5 custom-container">
 					<div className="w-100 text-center p-3">
-						<h1>Account Details</h1>
+						<h1 className="color-1">Account Details</h1>
 					</div>
 				<Navigation handleLogOut={handleLogOut} user={user} />
 				</Container>

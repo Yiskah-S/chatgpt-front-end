@@ -40,9 +40,9 @@ const LogInPage = ({ onSignInClick, onCreateAccountClick, setUser }) => {
 	return (
 		<div className="bg-custom-box">
 			<Container className="mt-5 custom-container">
-				<NavLink className="custom-link-h1" tag={Link} to="/">Home</NavLink>
+				<NavLink className="custom-link-h1 text-secondary" tag={Link} to="/">Home</NavLink>
 				<div id="signin" className="visible">
-					<h2 className="mt-3">Log In</h2>
+					<h2 className="mt-3 text-primary">Log In</h2>
 					<Form id="log-in-form" onSubmit={handleSubmit}>
 						<FormGroup className="mb-3">
 							<Label htmlFor="email" className="form-label">Email:</Label>
@@ -56,7 +56,7 @@ const LogInPage = ({ onSignInClick, onCreateAccountClick, setUser }) => {
 					</Form>
 					<p className="text-center mt-3" style={{ display: 'flex', justifyContent: 'center' }}>
 						<span>Don't have an account?</span>
-						<NavLink className="custom-link" tag={Link} to="/create-account" style={{ marginLeft: '5px' }}>Create Account</NavLink>
+						<NavLink className="custom-link text-secondary" tag={Link} color="color-2" to="/create-account" style={{ marginLeft: '5px' }}>Create Account</NavLink>
 					</p>
 				</div>
 			</Container>

@@ -85,7 +85,7 @@ const APIKeysPage = ({ onLogOut, user }) => {
 		<header className="bg-custom-header">
 			<Container className="mt-5 custom-container">
 				<div className="w-100 text-center p-3">
-					<h1>API Keys</h1>
+					<h1 className="color-1">API Keys</h1>
 				</div>
 			<Navigation handleLogOut={handleLogOut} user={user} />
 			</Container>
@@ -95,7 +95,6 @@ const APIKeysPage = ({ onLogOut, user }) => {
 			<Container className="mt-5 custom-container">
 				<main>
 					<div className="api-key-form">
-						<h1>API Key Setup</h1>
 						<Form onSubmit={handleSubmitAPIKeys}>
 							{formFields.map((field) => (
 								<FormGroup className="mb-3" key={field.name}>

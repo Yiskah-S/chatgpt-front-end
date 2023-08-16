@@ -1,12 +1,12 @@
 // custom.scss
 
 .bg-custom-header {
-    background-color: #f0f0f0;
+    background-color: #F7F4F3;
     border-radius: 0.25rem;
 }
 
 .bg-custom-box {
-    background-color: #f0f0f0;
+    background-color: #F7F4F3;
     border-radius: 0.25rem;
 }
 
@@ -31,24 +31,45 @@
 	}
 }
 
-.strong-text {
-	font-size: 1.2em; 
-    margin-right: 15px;
+.center-box {
+	width: 60%; 
+	margin: 0 auto; 
+	text-align: left; 
+	line-height: 2;
 }
+
+.strong-text {
+	font-size: 1.3em; 
+    margin-right: 15px;
+	color: #27AFB9;
+}
+
+.color-1 {
+	color: #FFA101; 
+}
+.color-2 {
+	color: #27AFB9; 
+}
+.color-3 {
+	color: #FFA101;
+}
+
+
 
 #notion-message {
-	text-align: center; /* Center the text for this specific element */
-	margin-bottom: 20px; /* Increase space between the message and the button */
+	text-align: center; 
+	margin-bottom: 20px; 
 }
 
-// $primary:       $blue;
-// $secondary:     $gray-600;
-// $success:       $green;
-// $info:          $cyan;
-// $warning:       $yellow;
-// $danger:        $red;
-// $light:         $gray-100;
-// $dark:          $gray-900;
+$primary:       #FFA101;
+$secondary:     #83DEE5;
+$success:       #315B66;
+$info:          #FAE6B1;
+$danger:        #A83D22;
+$light:         #F7F4F3;
+$gray: 			#E7DDDA;
+$dark:          #D6C7C2;
+$primary-border-subtle: #D6C7C2;
 
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
